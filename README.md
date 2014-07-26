@@ -7,6 +7,7 @@
 
 Install the module with: `npm install pathrewrite`
 
+Then use the 'Rules' class and the 'go()' function to substitute paths:
 ```js
 var pathrewrite = require('pathrewrite');
 
@@ -21,7 +22,29 @@ var result = pathrewrite.go('/I/am/lost/', rules);
 
 ## Examples
 
-_(Coming soon)_
+Here are some other examples:
+```js
+// Remove previously added rules:
+rules.clear();
+rules.add("your", 'my');
+
+// 'count' will be '1':
+rules.count();
+
+result = pathrewrite.go('/this/is/your/file.txt', rules);
+
+// result is '/this/is/my/file.txt'
+```
+
+And another one demo-ing some tolerance towards the inputs:
+```js
+rules.clear();
+rules.add("home", 'root');
+
+result = pathrewrite.go('/home//user/file.txt', rules);
+
+// result is '/root/user/file.txt'
+```
 
 
 ## Contributing

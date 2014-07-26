@@ -32,7 +32,7 @@ exports.pathrewrite =
     
     'simple': function(test)
     {
-        test.expect(7);
+        test.expect(8);
         
         test.ok(pathrewrite);
         
@@ -66,6 +66,14 @@ exports.pathrewrite =
         result = pathrewrite.go('/this/is/your/file.txt', rules);
 
         test.deepEqual(result, '/this/is/my/file.txt');
+        
+        
+        rules.clear();
+        rules.add("home", 'root');
+
+        result = pathrewrite.go('/home//user/file.txt', rules);
+
+        test.deepEqual(result, '/root/user/file.txt');
         
         
         test.done();
