@@ -1,0 +1,36 @@
+{
+  "name": "pathrewrite",
+  "version": "0.0.0",
+  "main": "lib/pathrewrite.js",
+  "description": "Rewrite paths with simple 'replace' rules",
+  "homepage": "http://github.com/NicolaOrritos/pathrewrite",
+  "bugs": "https://github.com/NicolaOrritos/pathrewrite/issues",
+  "author": {
+    "name": "Nicola Orritos",
+    "email": "nicola.orritos@gmail.com",
+    "url": "http://github.com/NicolaOrritos"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NicolaOrritos/pathrewrite"
+  },
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "pathrewrite",
+    "path"
+  ],
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt-contrib-watch": "^0.6.1",
+    "load-grunt-tasks": "^0.4.0",
+    "time-grunt": "^0.3.1",
+    "jshint-stylish": "^0.2.0"
+  },
+  "scripts": {
+    "test": "grunt"
+  }
+}
