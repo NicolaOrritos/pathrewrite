@@ -1,4 +1,4 @@
-# pathrewrite [![Build Status](https://secure.travis-ci.org/NicolaOrritos/pathrewrite.png?branch=master)](http://travis-ci.org/NicolaOrritos/pathrewrite)
+# pathrewrite
 
 > Rewrite paths with simple 'replace' rules
 
@@ -9,23 +9,14 @@ Install the module with: `npm install pathrewrite`
 
 ```js
 var pathrewrite = require('pathrewrite');
-pathrewrite.awesome(); // "awesome"
+
+var rules = new pathrewrite.Rules();
+rules.add("lost", 'back');
+
+var result = pathrewrite.go('/I/am/lost/', rules);
+
+// result is '/I/am/back/'
 ```
-
-Install with cli command
-
-```sh
-$ npm install -g pathrewrite
-$ pathrewrite --help
-$ pathrewrite --version
-```
-
-
-
-
-## Documentation
-
-_(Coming soon)_
 
 
 ## Examples

@@ -1,6 +1,6 @@
 'use strict';
 
-var pathrewrite = require('../lib/pathrewrite.js');
+var pathrewrite = require('../lib/pathrewrite');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -32,7 +32,7 @@ exports.pathrewrite =
     
     'simple': function(test)
     {
-        test.expect(4);
+        test.expect(7);
         
         test.ok(pathrewrite);
         
@@ -43,11 +43,29 @@ exports.pathrewrite =
         
         rules.add('pippo', 'baudo');
         
+        test.deepEqual(rules.count(), 1);
+        
         var result = pathrewrite.go('/pippo/baudo/', rules);
         
         test.ok(result);
         
         test.deepEqual(result, '/baudo/baudo/');
+        
+        
+        rules.clear();
+        rules.add("lost", 'back');
+
+        result = pathrewrite.go('/I/am/lost/', rules);
+
+        test.deepEqual(result, '/I/am/back/');
+        
+        
+        rules.clear();
+        rules.add("your", 'my');
+
+        result = pathrewrite.go('/this/is/your/file.txt', rules);
+
+        test.deepEqual(result, '/this/is/my/file.txt');
         
         
         test.done();
