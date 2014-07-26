@@ -1,8 +1,8 @@
 {
   "name": "pathrewrite",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "lib/pathrewrite.js",
-  "description": "Rewrite paths with simple 'replace' rules",
+  "description": "Rewrites paths using simple 'from => to' rules",
   "homepage": "http://github.com/NicolaOrritos/pathrewrite",
   "bugs": "https://github.com/NicolaOrritos/pathrewrite/issues",
   "author": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NicolaOrritos/pathrewrite"
+    "url": "https://github.com/NicolaOrritos/pathrewrite.git"
   },
   "license": "MIT",
   "files": [
