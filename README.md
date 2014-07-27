@@ -19,6 +19,20 @@ var result = pathrewrite.go('/I/am/lost/', rules);
 // result is '/I/am/back/'
 ```
 
+You can also load multiple rules at once using the following:
+```js
+var rules = pathrewrite.Rule.loadMulti( [
+    {
+        FROM: 'a',
+        TO: 'b'
+    },
+    {
+        FROM: 'c',
+        TO: 'd'
+    }
+] );
+```
+
 
 ## Examples
 

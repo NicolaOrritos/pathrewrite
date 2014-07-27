@@ -77,5 +77,28 @@ exports.pathrewrite =
         
         
         test.done();
+    },
+    
+    'load multi': function(test)
+    {
+        test.expect(3);
+        
+        
+        var rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: "b"}]);
+        
+        test.deepEqual(rules.count(), 1);
+        
+        
+        rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: "b"}, {FROM: "c", TO: "d"}]);
+        
+        test.deepEqual(rules.count(), 2);
+        
+        
+        var result = pathrewrite.go('/a/b/c/d', rules);
+
+        test.deepEqual(result, '/b/b/d/d');
+        
+        
+        test.done();
     }
 };
