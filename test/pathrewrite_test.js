@@ -22,6 +22,93 @@ var pathrewrite = require('../lib/pathrewrite');
     test.ifError(value)
 */
 
+function parametricTest(strict, test)
+{
+    test.expect(16);
+
+    test.ok(pathrewrite);
+
+
+    var rules  = new pathrewrite.Rules(strict);
+
+    test.ok(rules);
+
+    rules.add('pippo', 'baudo');
+
+    test.deepEqual(rules.count(), 1);
+
+    var result = pathrewrite.go('/pippo/baudo/', rules);
+
+    test.ok(result);
+
+    test.deepEqual(result, '/baudo/baudo/');
+
+
+    rules.clear();
+    rules.add('lost', 'back');
+
+    result = pathrewrite.go('/I/am/lost/', rules);
+
+    test.deepEqual(result, '/I/am/back/');
+
+
+    rules.clear();
+    rules.add('your', 'my');
+
+    result = pathrewrite.go('/this/is/your/file.txt', rules);
+
+    test.deepEqual(result, '/this/is/my/file.txt');
+
+
+    rules.clear();
+    rules.add('home', 'root');
+
+    result = pathrewrite.go('/home//user/file.txt', rules);
+
+    test.deepEqual(result, '/root/user/file.txt');
+
+
+    rules.clear();
+    rules.add('home', '');
+
+    result = pathrewrite.go('/home/user/file.txt', rules);
+
+    test.deepEqual(result, '/user/file.txt');
+
+
+    rules.clear();
+    test.throws(function(){rules.add('', 'somethingelse');});
+    test.throws(function(){rules.add('something', ' ');});
+    test.throws(function(){rules.add('', '');});
+    test.throws(function(){rules.add(' ', '');});
+    test.throws(function(){rules.add(' ', ' ');});
+    test.throws(function(){rules.add('', ' ');});
+
+
+    rules.clear();
+    rules.add('home', '$HOME');
+
+    if (strict)
+    {
+        test.throws(function(){pathrewrite.go('/home/user/file.txt', rules);});
+    }
+    else
+    {
+        result = pathrewrite.go('/home/user/file.txt', rules);
+
+        test.deepEqual(result, '/$HOME/user/file.txt');
+    }
+
+
+    /* rules = new pathrewrite.Rules(false);
+    rules.add('home', '..');
+
+    test.deepEqual(result, '../user/file.txt'); */
+
+
+    test.done();
+}
+
 exports.pathrewrite =
 {
     setUp: function(done)
@@ -32,51 +119,12 @@ exports.pathrewrite =
     
     'simple': function(test)
     {
-        test.expect(8);
-        
-        test.ok(pathrewrite);
-        
-        
-        var rules = new pathrewrite.Rules();
-        
-        test.ok(rules);
-        
-        rules.add('pippo', 'baudo');
-        
-        test.deepEqual(rules.count(), 1);
-        
-        var result = pathrewrite.go('/pippo/baudo/', rules);
-        
-        test.ok(result);
-        
-        test.deepEqual(result, '/baudo/baudo/');
-        
-        
-        rules.clear();
-        rules.add("lost", 'back');
-
-        result = pathrewrite.go('/I/am/lost/', rules);
-
-        test.deepEqual(result, '/I/am/back/');
-        
-        
-        rules.clear();
-        rules.add("your", 'my');
-
-        result = pathrewrite.go('/this/is/your/file.txt', rules);
-
-        test.deepEqual(result, '/this/is/my/file.txt');
-        
-        
-        rules.clear();
-        rules.add("home", 'root');
-
-        result = pathrewrite.go('/home//user/file.txt', rules);
-
-        test.deepEqual(result, '/root/user/file.txt');
-        
-        
-        test.done();
+        parametricTest(false, test);
+    },
+    
+    'strict': function(test)
+    {
+        parametricTest(true, test);
     },
     
     'load multi': function(test)
