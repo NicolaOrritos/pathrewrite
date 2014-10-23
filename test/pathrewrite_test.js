@@ -24,7 +24,7 @@ var pathrewrite = require('../lib/pathrewrite');
 
 function parametricTest(strict, test)
 {
-    test.expect(16);
+    test.expect(17);
 
     test.ok(pathrewrite);
 
@@ -100,10 +100,19 @@ function parametricTest(strict, test)
     }
 
 
-    /* rules = new pathrewrite.Rules(false);
+    rules.clear();
     rules.add('home', '..');
-
-    test.deepEqual(result, '../user/file.txt'); */
+    
+    if (strict)
+    {
+        test.throws(function(){pathrewrite.go('home/user/file.txt', rules);});
+    }
+    else
+    {
+        result = pathrewrite.go('home/user/file.txt', rules);
+        
+        test.deepEqual(result, '../user/file.txt');
+    }
 
 
     test.done();
