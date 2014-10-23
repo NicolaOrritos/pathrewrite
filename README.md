@@ -1,6 +1,6 @@
 # pathrewrite
 
-> Rewrite paths with simple 'replace' rules
+Rewrite paths with simple 'replace' rules.
 
 
 ## Getting Started
@@ -19,7 +19,7 @@ var result = pathrewrite.go('/I/am/lost/', rules);
 // result is '/I/am/back/'
 ```
 
-You can also load multiple rules at once using the following:
+You can also load multiple rules at once using the following syntax:
 ```js
 var rules = pathrewrite.Rules.loadMulti( [
     {
@@ -32,6 +32,14 @@ var rules = pathrewrite.Rules.loadMulti( [
     }
 ] );
 ```
+
+## "Strict" rules
+Both the Rules constructor and the _loadMulti()_ method accept the optional _"strict"_ parameter, of type boolean.  
+When _strict_ is _true_ an additional set of checks is enacted when calling the _pathrewrite.go()_ method.  
+Currently the following are checked:
+* The resulting path must not contain the string _".."_
+* The resulting path must not contain the character _"%"_
+* The resulting path must not contain the character _"$"_
 
 
 ## Examples
@@ -58,6 +66,17 @@ rules.add("home", 'root');
 result = pathrewrite.go('/home//user/file.txt', rules);
 
 // result is '/root/user/file.txt'
+```
+
+Finally, this one throws an error:
+```js
+var strict = true;
+var rules  = new pathrewrite.Rules(strict);
+rules.add('home', '..');
+
+/* This 'go' method throws an error because of the ".." string
+ * specified above, which gets caught by the "strict" checks. */
+result = pathrewrite.go('home/root/file.txt', rules);
 ```
 
 
