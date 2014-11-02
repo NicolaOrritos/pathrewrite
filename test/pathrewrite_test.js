@@ -157,5 +157,43 @@ exports.pathrewrite =
         
         
         test.done();
+    },
+    
+    'paramters': function(test)
+    {
+        test.expect(6);
+        
+        
+        var rules = pathrewrite.Rules.loadMulti([]);
+        
+        test.ok(rules);
+        
+        
+        var result = pathrewrite.go('a/%1/c/%2', rules, 'b', 'd');
+        
+        test.deepEqual(result, 'a/b/c/d');
+        
+        
+        result = pathrewrite.go('a/%1/c/%2/', rules, 'b', 'd');
+        
+        test.deepEqual(result, 'a/b/c/d/');
+        
+        
+        result = pathrewrite.go('%1/%2/', rules, 'b', 'c');
+        
+        test.deepEqual(result, 'b/c/');
+        
+        
+        result = pathrewrite.go('/%1/%2/%2/%2/%2/%2/%2/%2/%2/%2/', rules, 'a', 'b');
+        
+        test.deepEqual(result, '/a/b/b/b/b/b/b/b/b/b/');
+        
+        
+        result = pathrewrite.go('/%2/%1/%1/%1/%1/%1/%1/%1/%1/%1', rules, 'a', 'b');
+        
+        test.deepEqual(result, '/b/a/a/a/a/a/a/a/a/a');
+        
+        
+        test.done();
     }
 };
