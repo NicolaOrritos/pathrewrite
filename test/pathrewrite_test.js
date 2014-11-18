@@ -159,7 +159,7 @@ exports.pathrewrite =
         test.done();
     },
     
-    'paramters': function(test)
+    'parameters': function(test)
     {
         test.expect(6);
         
@@ -195,5 +195,20 @@ exports.pathrewrite =
         
         
         test.done();
-    }
+    },
+    
+    'subpath removal': function(test)
+    {
+        test.expect(1);
+        
+        
+        var rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: ""}]);
+        
+        var result = pathrewrite.go('/a/b/c/d', rules);
+
+        test.deepEqual(result, '/b/c/d');
+        
+        
+        test.done();
+    },
 };
