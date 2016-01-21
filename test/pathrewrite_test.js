@@ -1,6 +1,6 @@
 'use strict';
 
-var pathrewrite = require('../lib/pathrewrite');
+let pathrewrite = require('../lib/pathrewrite');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -29,7 +29,7 @@ function parametricTest(strict, test)
     test.ok(pathrewrite);
 
 
-    var rules  = new pathrewrite.Rules(strict);
+    let rules  = new pathrewrite.Rules(strict);
 
     test.ok(rules);
 
@@ -37,7 +37,7 @@ function parametricTest(strict, test)
 
     test.deepEqual(rules.count(), 1);
 
-    var result = pathrewrite.go('/pippo/baudo/', rules);
+    let result = pathrewrite.go('/pippo/baudo/', rules);
 
     test.ok(result);
 
@@ -102,7 +102,7 @@ function parametricTest(strict, test)
 
     rules.clear();
     rules.add('home', '..');
-    
+
     if (strict)
     {
         test.throws(function(){pathrewrite.go('home/user/file.txt', rules);});
@@ -110,7 +110,7 @@ function parametricTest(strict, test)
     else
     {
         result = pathrewrite.go('home/user/file.txt', rules);
-        
+
         test.deepEqual(result, '../user/file.txt');
     }
 
@@ -125,90 +125,90 @@ exports.pathrewrite =
         // setup here
         done();
     },
-    
+
     'simple': function(test)
     {
         parametricTest(false, test);
     },
-    
+
     'strict': function(test)
     {
         parametricTest(true, test);
     },
-    
+
     'load multi': function(test)
     {
         test.expect(3);
-        
-        
-        var rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: "b"}]);
-        
+
+
+        let rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: "b"}]);
+
         test.deepEqual(rules.count(), 1);
-        
-        
+
+
         rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: "b"}, {FROM: "c", TO: "d"}]);
-        
+
         test.deepEqual(rules.count(), 2);
-        
-        
-        var result = pathrewrite.go('/a/b/c/d', rules);
+
+
+        let result = pathrewrite.go('/a/b/c/d', rules);
 
         test.deepEqual(result, '/b/b/d/d');
-        
-        
+
+
         test.done();
     },
-    
+
     'parameters': function(test)
     {
         test.expect(6);
-        
-        
-        var rules = pathrewrite.Rules.loadMulti([]);
-        
+
+
+        let rules = pathrewrite.Rules.loadMulti([]);
+
         test.ok(rules);
-        
-        
-        var result = pathrewrite.go('a/%1/c/%2', rules, 'b', 'd');
-        
+
+
+        let result = pathrewrite.go('a/%1/c/%2', rules, 'b', 'd');
+
         test.deepEqual(result, 'a/b/c/d');
-        
-        
+
+
         result = pathrewrite.go('a/%1/c/%2/', rules, 'b', 'd');
-        
+
         test.deepEqual(result, 'a/b/c/d/');
-        
-        
+
+
         result = pathrewrite.go('%1/%2/', rules, 'b', 'c');
-        
+
         test.deepEqual(result, 'b/c/');
-        
-        
+
+
         result = pathrewrite.go('/%1/%2/%2/%2/%2/%2/%2/%2/%2/%2/', rules, 'a', 'b');
-        
+
         test.deepEqual(result, '/a/b/b/b/b/b/b/b/b/b/');
-        
-        
+
+
         result = pathrewrite.go('/%2/%1/%1/%1/%1/%1/%1/%1/%1/%1', rules, 'a', 'b');
-        
+
         test.deepEqual(result, '/b/a/a/a/a/a/a/a/a/a');
-        
-        
+
+
         test.done();
     },
-    
+
     'subpath removal': function(test)
     {
         test.expect(1);
-        
-        
-        var rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: ""}]);
-        
-        var result = pathrewrite.go('/a/b/c/d', rules);
+
+
+        let rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: ""}]);
+
+        let result = pathrewrite.go('/a/b/c/d', rules);
 
         test.deepEqual(result, '/b/c/d');
-        
-        
+
+
         test.done();
     },
 };
