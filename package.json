@@ -1,6 +1,6 @@
 {
   "name": "pathrewrite",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "lib/pathrewrite.js",
   "description": "Rewrites paths using simple 'from => to' rules",
   "homepage": "http://github.com/NicolaOrritos/pathrewrite",

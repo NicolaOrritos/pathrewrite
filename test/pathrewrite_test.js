@@ -1,6 +1,6 @@
 'use strict';
 
-let pathrewrite = require('../lib/pathrewrite');
+const pathrewrite = require('../lib/pathrewrite');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -29,7 +29,7 @@ function parametricTest(strict, test)
     test.ok(pathrewrite);
 
 
-    let rules  = new pathrewrite.Rules(strict);
+    const rules = new pathrewrite.Rules(strict);
 
     test.ok(rules);
 
