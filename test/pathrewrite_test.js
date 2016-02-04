@@ -211,4 +211,60 @@ exports.pathrewrite =
 
         test.done();
     },
+
+    'non-trivial substitutions': function(test)
+    {
+        test.expect(2);
+
+
+        let rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: ""}, {FROM: "b", TO: "c"}, {FROM: "d", TO: "c"}]);
+
+        let result = pathrewrite.go('/a/b/c/d/d/c/b/a', rules);
+
+        test.deepEqual(result, '/c/c/c/c/c/c');
+
+
+        result = pathrewrite.go('/a/a/a/a', rules);
+
+        test.deepEqual(result, '.');
+
+
+        test.done();
+    },
+
+    'memory usage': function(test)
+    {
+        test.expect(20001);
+
+        var max = 10000;
+
+        var timer = setInterval( () =>
+        {
+            if (max-- > 0)
+            {
+                let rules = pathrewrite.Rules.loadMulti([{FROM: "a", TO: ""}, {FROM: "b", TO: "c"}, {FROM: "d", TO: "c"}]);
+
+                let result = pathrewrite.go('/a/b/c/d/d/c/b/a', rules);
+
+                test.deepEqual(result, '/c/c/c/c/c/c');
+
+                result = pathrewrite.go('/a/a/a/a', rules);
+
+                test.deepEqual(result, '.');
+            }
+            else
+            {
+                clearTimeout(timer);
+
+                var memory = process.memoryUsage().heapUsed / 1024 / 1024;
+
+                console.log('Heap used: ~%sMB', parseInt(memory));
+
+                test.deepEqual(memory < 50, true);
+
+                test.done();
+            }
+
+        }, 5);
+    }
 };
